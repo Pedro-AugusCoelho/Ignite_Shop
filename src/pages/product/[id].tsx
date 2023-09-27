@@ -3,19 +3,13 @@ import { ImageContainer, ProductContainer, ProductDetails } from "@/styles/pages
 import axios from "axios";
 import { GetStaticPaths, GetStaticProps } from "next"
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Stripe from "stripe";
 import Head from "next/head";
+import { Shirt, ShoppingCartContext } from "@/context/shoppingCartContext";
 
-interface ProductProps {
-    product: {
-        id: string,
-        name: string,
-        image: string,
-        price: string,
-        description: string,
-        defaultPriceId: string
-    }
+export interface ProductProps {
+    product: Shirt
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -28,25 +22,39 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export default function Product ({product}:ProductProps) {
+    const { addShirtFromShoppingCart } = useContext(ShoppingCartContext)
 
     const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
 
-    async function handleBuyProduct() {
-        try{
-            setIsCreatingCheckoutSession(true)
-            const response = await axios.post('/api/checkout', {
-                priceId: product.defaultPriceId
-            })
-
-            const { checkoutUrl } = response.data
-
-            window.location.href = checkoutUrl
-
-        } catch (err) {
-            setIsCreatingCheckoutSession(false)
-            alert('Falha ao redirecionar o usuário para o checkout')
+    
+    async function handleAddShirtFromShoppingCart() {
+        const data: Shirt = {
+            id: product.id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            description: product.description,
+            defaultPriceId: product.defaultPriceId
         }
+        addShirtFromShoppingCart(data)
     }
+    
+    // async function handleBuyProduct() {
+    //     try{
+    //         setIsCreatingCheckoutSession(true)
+    //         const response = await axios.post('/api/checkout', {
+    //             priceId: product.defaultPriceId
+    //         })
+
+    //         const { checkoutUrl } = response.data
+
+    //         window.location.href = checkoutUrl
+
+    //     } catch (err) {
+    //         setIsCreatingCheckoutSession(false)
+    //         alert('Falha ao redirecionar o usuário para o checkout')
+    //     }
+    // }
 
 
     return (
@@ -65,8 +73,8 @@ export default function Product ({product}:ProductProps) {
 
                     <p>{product.description}</p>
                 
-                    <button onClick={handleBuyProduct} disabled={isCreatingCheckoutSession}>
-                        Comprar Agora
+                    <button onClick={handleAddShirtFromShoppingCart} disabled={isCreatingCheckoutSession}>
+                        Colocar na sacola
                     </button>
                 </ProductDetails>
             </ProductContainer>
