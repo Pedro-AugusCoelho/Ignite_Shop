@@ -42,17 +42,6 @@ export const Product = styled("div", {
         justifyContent: "space-between",
 
         backgroundColor: "rgba(0,0,0,0.6)",
-
-        strong: {
-            fontSize: "$lg",
-            color: "$gray100"
-        },
-
-        span: {
-            fontSize: "xl",
-            fontWeight: "bold",
-            color: "$green300"
-        }
     },
 
     '&:hover': {
@@ -60,5 +49,35 @@ export const Product = styled("div", {
             transform: "translateY(0%)",
             opacity: 1,
         }
+    }
+})
+
+export const IconCartContainer = styled("div", {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+
+    color: "$white",
+    background: "$green500",
+    borderRadius: 8,
+    width: 56,
+    height: 56,
+})
+
+export const InfoContainer = styled("div",{
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    gap: "0.25rem",
+
+    strong: {
+        fontSize: "$lg",
+        color: "$gray100"
+    },
+
+    span: {
+        fontSize: "2xl",
+        fontWeight: "bold",
+        color: "$green300"
     }
 })
