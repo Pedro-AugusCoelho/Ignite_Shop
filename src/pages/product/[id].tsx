@@ -6,6 +6,7 @@ import { useContext, useState } from "react";
 import Stripe from "stripe";
 import Head from "next/head";
 import { Shirt, ShoppingCartContext } from "@/context/shoppingCartContext";
+import { Header } from "@/components/Header";
 
 export interface ProductProps {
     product: Shirt
@@ -62,6 +63,8 @@ export default function Product ({product}:ProductProps) {
             <Head>
                 <title>{product.name} | Ignite Shop</title>
             </Head>
+
+            <Header />
 
             <ProductContainer>
                 <ImageContainer>
