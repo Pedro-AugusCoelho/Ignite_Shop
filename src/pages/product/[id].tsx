@@ -1,6 +1,5 @@
 import { stripe } from "@/lib/stripe"
 import { ImageContainer, ProductContainer, ProductDetails } from "@/styles/pages/product"
-import axios from "axios";
 import { GetStaticPaths, GetStaticProps } from "next"
 import Image from "next/image";
 import { useContext, useState } from "react";
@@ -33,6 +32,7 @@ export default function Product ({product}:ProductProps) {
             name: product.name,
             image: product.image,
             price: product.price,
+            price_format: product.price_format,
             description: product.description,
             defaultPriceId: product.defaultPriceId
         }
@@ -69,7 +69,7 @@ export default function Product ({product}:ProductProps) {
                 </ImageContainer>
                 <ProductDetails>
                     <h1>{product.name}</h1>
-                    <span>{product.price}</span>
+                    <span>{product.price_format}</span>
 
                     <p>{product.description}</p>
                 
@@ -99,7 +99,8 @@ export const getStaticProps:GetStaticProps<any, { id: string }> = async ({ param
                 id: product.id,
                 name: product.name,
                 image: product.images[0],
-                price: new Intl.NumberFormat('pt-BR', {
+                price: (price.unit_amount! / 100),
+                price_format: new Intl.NumberFormat('pt-BR', {
                   style: "currency",
                   currency: "BRL"
                 }).format((price.unit_amount! / 100)),

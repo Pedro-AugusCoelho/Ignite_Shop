@@ -5,7 +5,8 @@ export interface Shirt {
     id: string,
     name: string,
     image: string,
-    price: string,
+    price_format: string,
+    price: number,
     description: string,
     defaultPriceId: string
 }

@@ -13,10 +13,11 @@ import { Handbag } from "phosphor-react";
 
 interface HomeProps {
   products: {
-    id: string,
-    name: string,
-    image: string,
-    price: string,
+    id: string;
+    name: string;
+    image: string;
+    price_format: string;
+    price: number;
   }[]
 }
 
@@ -45,7 +46,7 @@ export default function Home({products}:HomeProps) {
                   
                   <InfoContainer>
                     <strong>{product.name}</strong>
-                    <span>{product.price}</span>
+                    <span>{product.price_format}</span>
                   </InfoContainer>
                   
                   <IconCartContainer>
@@ -78,7 +79,8 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       image: product.images[0],
-      price: new Intl.NumberFormat('pt-BR', {
+      price: (price.unit_amount! / 100),
+      price_format: new Intl.NumberFormat('pt-BR', {
         style: "currency",
         currency: "BRL"
       }).format((price.unit_amount! / 100))

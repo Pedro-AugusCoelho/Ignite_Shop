@@ -1,11 +1,16 @@
-import { ShoppingCartContext } from '@/context/shoppingCartContext';
-import { CloseButton, Overlay, Content, Title, CardContainer, Card } from '@/styles/pages/dialogCartShirts';
+import { Shirt, ShoppingCartContext } from '@/context/shoppingCartContext';
+import { CloseButton, Overlay, Content, TitleCart, CardContainer, Card, ImageContainer, InfoProduct, InfoPriceContainer, BtnBuyProducts, Viewport, ScrollAreaRoot, Scrollbar, ScrollAreaThumb } from '@/styles/pages/dialogCartShirts';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'phosphor-react';
 import { useContext } from 'react';
+import Image from "next/image";
 
 export function DialogCartShirts () {
     const { shirts } = useContext(ShoppingCartContext)
+
+    const totalPrice = shirts.reduce((acc: number, product: Shirt) => acc + product.price, 0)
+    const formatPrice = new Intl.NumberFormat('pt-BR', {style: "currency", currency: "BRL"}).format(totalPrice)
+    
     return (
         <Dialog.Portal>
             <Overlay />
@@ -14,19 +19,46 @@ export function DialogCartShirts () {
                     <X size={24} />
                 </CloseButton>
 
-                <Title>Sacola de compras</Title>
+                <TitleCart>Sacola de compras</TitleCart>
 
-                <CardContainer>
-                    {shirts.length > 0 && shirts.map(item => {
-                        return(
-                            <Card key={item.id}>
-                                <p>parado</p>
-                            </Card>
-                        )
-                    })
+                <ScrollAreaRoot>
+                    <Viewport>
+                        <CardContainer>
+                                {shirts.length > 0 && shirts.map(product => {
+                                    return(
+                                        <Card key={product.id}>
+                                            <ImageContainer>
+                                                <Image src={product.image} alt='' width={100} height={90} />
+                                            </ImageContainer>
 
-                    }
-                </CardContainer>
+                                            <InfoProduct>
+                                                <span>{product.name}</span>
+                                                <strong>{product.price_format}</strong>
+                                                <button>Remover</button>
+                                            </InfoProduct>
+                                        </Card>
+                                    )
+                                })
+                                }
+                        </CardContainer>
+                    </Viewport>
+                    <Scrollbar orientation="vertical">
+                        <ScrollAreaThumb />
+                    </Scrollbar>
+                </ScrollAreaRoot>
+
+                <footer>
+                    <InfoPriceContainer>
+                        <p>Quantidade</p>
+                        <span>{shirts.length} Itens</span>
+                        <strong>Valor Total</strong>
+                        <span>{formatPrice}</span>
+                    </InfoPriceContainer>
+
+                    <BtnBuyProducts>
+                        Finalizar Conta
+                    </BtnBuyProducts>
+                </footer>
             </Content>
         </Dialog.Portal>
     )
