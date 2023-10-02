@@ -6,6 +6,7 @@ export interface Shirt {
     name: string,
     image: string,
     price_format: string,
+    amount: number,
     price: number,
     description: string,
     defaultPriceId: string
@@ -13,7 +14,8 @@ export interface Shirt {
 
 interface shoppingCartContextType {
     shirts: Shirt[]
-    addShirtFromShoppingCart: (data: Shirt) => void;
+    addShirtToShoppingCart: (data: Shirt) => void;
+    removeShirtToShoppingCart: (id: string) => void;
 }
 
 interface shirtContextProviderProps {
@@ -26,13 +28,32 @@ export function ShoppingCartContextProvider({children}: shirtContextProviderProp
   
     const [shirts, setShirts] = useState<Shirt[]>([])
 
-    function addShirtFromShoppingCart (data: Shirt) {
-        setShirts((state) => [...state, data])
+    function addShirtToShoppingCart (data: Shirt) {
+        const findShirt = shirts.find(item => item.id === data.id)
+
+        if (findShirt) {
+            const updateShirt = shirts.map(item => {
+                if(item.id === data.id) {
+                    return {...item, amount: item.amount + data.amount}
+                }
+
+                return item
+            })
+
+            setShirts(updateShirt)
+        } else {
+            setShirts((state) => [...state, data])
+        }
+    }
+
+    function removeShirtToShoppingCart (id: string) {
+        const copyShirts = shirts.filter(item => item.id !== id)
+        setShirts(copyShirts)
     }
 
 
     return (
-    <ShoppingCartContext.Provider value={{ shirts, addShirtFromShoppingCart }}>
+    <ShoppingCartContext.Provider value={{ shirts, addShirtToShoppingCart, removeShirtToShoppingCart }}>
         {children}
     </ShoppingCartContext.Provider>
     )

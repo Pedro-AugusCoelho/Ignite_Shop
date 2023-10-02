@@ -50,25 +50,96 @@ export const ProductDetails = styled('div', {
         color: "$gray300",
     },
 
-    button: {
+    footer: {
+        width: "100%",
         marginTop: "auto",
-        background: "$green500",
-        border: 0,
-        color: "$white",
-        borderRadius: 8,
-        padding: '1.25rem',
-        cursor: "pointer",
-        fontWeight: "bold",
-        fontSize: "$md",
 
-        "&:not(:disabled):hover": {
-            background: "$green300",
-        },
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
 
-        "&:disabled": {
-            opacity: 0.6,
-            cursor: 'not-allowed'
+        button: {
+            width: "100%",
+            background: "$green500",
+            border: 0,
+            color: "$white",
+            borderRadius: 8,
+            padding: '1.25rem',
+            cursor: "pointer",
+            fontWeight: "bold",
+            fontSize: "$md",
+    
+            "&:not(:disabled):hover": {
+                background: "$green300",
+            },
+    
+            "&:disabled": {
+                opacity: 0.6,
+                cursor: 'not-allowed'
+            }
         }
-    }
+    },
+})
 
+
+export const BtnAmountContainer = styled("div", {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+
+    width: "50%",
+
+    div: {
+        width: "100%",
+        padding: '0.594rem',
+
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+
+        cursor: "pointer",
+
+        background: "$green500",
+
+        "&:first-child": {
+            background: "$gray800",
+        },
+    },
+})
+
+export const BtnAmount = styled("button",{
+    width: "100%",
+    padding: "0.5rem !important",
+
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+
+    background: "$green500",
+
+    "&:first-child":{
+        borderTopLeftRadius: 6,
+        borderBottomLeftRadius: 6,
+
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+        "&:hover":{
+            background: "$green300",
+            transition: "background ease-in-out 0.2s"
+        }
+    },
+
+    "&:last-child":{
+        borderTopRightRadius: 6,
+        borderBottomRightRadius: 6,
+
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
+
+        "&:hover":{
+            background: "$green300",
+            transition: "background ease-in-out 0.2s"
+        }
+    },
 })

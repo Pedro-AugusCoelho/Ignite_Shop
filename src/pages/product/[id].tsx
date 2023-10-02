@@ -1,5 +1,5 @@
 import { stripe } from "@/lib/stripe"
-import { ImageContainer, ProductContainer, ProductDetails } from "@/styles/pages/product"
+import { BtnAmountContainer, ImageContainer, ProductContainer, ProductDetails, BtnAmount } from "@/styles/pages/product"
 import { GetStaticPaths, GetStaticProps } from "next"
 import Image from "next/image";
 import { useContext, useState } from "react";
@@ -7,7 +7,6 @@ import Stripe from "stripe";
 import Head from "next/head";
 import { Shirt, ShoppingCartContext } from "@/context/shoppingCartContext";
 import { Header } from "@/components/Header";
-
 export interface ProductProps {
     product: Shirt
 }
@@ -22,23 +21,48 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export default function Product ({product}:ProductProps) {
-    const { addShirtFromShoppingCart } = useContext(ShoppingCartContext)
+    const { addShirtToShoppingCart } = useContext(ShoppingCartContext)
 
     const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
 
+    const [amount, setAmount] = useState(0)
     
+    function handleAddOrRemoveShirt (type: 'more' | 'less') {
+        if(type === 'more') {
+            setAmount(amount + 1)
+        } else {
+            if (amount === 1) {
+                return
+            } else {
+                setAmount(amount - 1)
+            }
+        }
+    }
+
     async function handleAddShirtFromShoppingCart() {
         const data: Shirt = {
             id: product.id,
             name: product.name,
             image: product.image,
+            amount: amount,
             price: product.price,
             price_format: product.price_format,
             description: product.description,
             defaultPriceId: product.defaultPriceId
         }
-        addShirtFromShoppingCart(data)
+        addShirtToShoppingCart(data)
+        handleClearAmountAndInfoBuy()
     }
+
+    function handleClearAmountAndInfoBuy () {
+        setAmount(1)
+        if(product.amount > 1) {
+            alert(`${product.amount} ${product.name} foram adicionadas no carrinho!`)
+        }else {
+            alert(`${product.amount} ${product.name} foi adicionada no carrinho!`)
+        }
+    }
+
     
     // async function handleBuyProduct() {
     //     try{
@@ -76,9 +100,19 @@ export default function Product ({product}:ProductProps) {
 
                     <p>{product.description}</p>
                 
-                    <button onClick={handleAddShirtFromShoppingCart} disabled={isCreatingCheckoutSession}>
-                        Colocar na sacola
-                    </button>
+                    <footer>
+
+                        <BtnAmountContainer>
+                            <BtnAmount onClick={() => handleAddOrRemoveShirt('less')}>-</BtnAmount>
+                                <div>{amount}</div>
+                            <BtnAmount onClick={() => handleAddOrRemoveShirt('more')}>+</BtnAmount>
+                        </BtnAmountContainer> 
+                     
+                        <button onClick={handleAddShirtFromShoppingCart} disabled={isCreatingCheckoutSession}>
+                            Colocar na sacola
+                        </button>
+                    </footer>
+                
                 </ProductDetails>
             </ProductContainer>
         </>

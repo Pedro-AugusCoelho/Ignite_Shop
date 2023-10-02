@@ -6,10 +6,14 @@ import { useContext } from 'react';
 import Image from "next/image";
 
 export function DialogCartShirts () {
-    const { shirts } = useContext(ShoppingCartContext)
+    const { shirts, removeShirtToShoppingCart } = useContext(ShoppingCartContext)
 
-    const totalPrice = shirts.reduce((acc: number, product: Shirt) => acc + product.price, 0)
+    const totalPrice = shirts.reduce((acc: number, product: Shirt) => acc + (product.price * product.amount), 0)
     const formatPrice = new Intl.NumberFormat('pt-BR', {style: "currency", currency: "BRL"}).format(totalPrice)
+
+    function handleRemoveShirtToShoppingCart (id:string) {
+        removeShirtToShoppingCart(id)
+    }
     
     return (
         <Dialog.Portal>
@@ -33,8 +37,11 @@ export function DialogCartShirts () {
 
                                             <InfoProduct>
                                                 <span>{product.name}</span>
+                                                <span>{product.amount} {product.amount === 1 ? 'Peça' : 'Peças'}</span>
                                                 <strong>{product.price_format}</strong>
-                                                <button>Remover</button>
+                                                <button onClick={() => handleRemoveShirtToShoppingCart(product.id)}>
+                                                    Remover
+                                                </button>
                                             </InfoProduct>
                                         </Card>
                                     )
@@ -50,7 +57,7 @@ export function DialogCartShirts () {
                 <footer>
                     <InfoPriceContainer>
                         <p>Quantidade</p>
-                        <span>{shirts.length} Itens</span>
+                        <span>{shirts.length} {shirts.length === 1 ? 'Item' : 'Itens'}</span>
                         <strong>Valor Total</strong>
                         <span>{formatPrice}</span>
                     </InfoPriceContainer>
