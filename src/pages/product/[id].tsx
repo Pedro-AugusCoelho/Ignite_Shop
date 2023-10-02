@@ -7,6 +7,7 @@ import Stripe from "stripe";
 import Head from "next/head";
 import { Shirt, ShoppingCartContext } from "@/context/shoppingCartContext";
 import { Header } from "@/components/Header";
+import { toast } from "react-toastify";
 export interface ProductProps {
     product: Shirt
 }
@@ -25,7 +26,7 @@ export default function Product ({product}:ProductProps) {
 
     const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
 
-    const [amount, setAmount] = useState(0)
+    const [amount, setAmount] = useState(1)
     
     function handleAddOrRemoveShirt (type: 'more' | 'less') {
         if(type === 'more') {
@@ -56,10 +57,14 @@ export default function Product ({product}:ProductProps) {
 
     function handleClearAmountAndInfoBuy () {
         setAmount(1)
-        if(product.amount > 1) {
-            alert(`${product.amount} ${product.name} foram adicionadas no carrinho!`)
-        }else {
-            alert(`${product.amount} ${product.name} foi adicionada no carrinho!`)
+        if(amount === 1) {
+            toast.success(`${amount} ${product.name} foi adicionada no carrinho!`, {
+                icon: true
+            })
+        } else {
+            toast.success(`${amount} ${product.name} foram adicionadas no carrinho!`, {
+                icon: true
+            })
         }
     }
 

@@ -3,6 +3,7 @@ import { Handbag } from "phosphor-react";
 import { DialogCartShirts } from "./dialogCartShirts";
 import * as Dialog from '@radix-ui/react-dialog'
 import Image from "next/image";
+import Link from "next/link";
 
 import LogoImg from '../assets/Logo.svg'
 import { useContext } from "react";
@@ -13,11 +14,13 @@ export function Header () {
     
     return (
         <HeaderContainer>
-          <Image src={LogoImg} alt='ignite-shop' />
+          <Link href={'/'} prefetch={false}>
+            <Image src={LogoImg} alt='ignite-shop' />
+          </Link>
 
           <Dialog.Root>
             <Dialog.Trigger asChild>
-              <IconCartContainer>
+              <IconCartContainer disabled={shirts.length === 0}>
                 <Handbag size={24} />
                 {shirts.length > 0 && <CycleInfoAmount>{shirts.length}</CycleInfoAmount>}
               </IconCartContainer>

@@ -71,6 +71,7 @@ export const ProductDetails = styled('div', {
     
             "&:not(:disabled):hover": {
                 background: "$green300",
+                transition: "background ease-in-out 0.2s"
             },
     
             "&:disabled": {
@@ -99,11 +100,7 @@ export const BtnAmountContainer = styled("div", {
 
         cursor: "pointer",
 
-        background: "$green500",
-
-        "&:first-child": {
-            background: "$gray800",
-        },
+        background: "$gray800",
     },
 })
 

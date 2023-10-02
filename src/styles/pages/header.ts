@@ -26,7 +26,15 @@ export const IconCartContainer = styled("button", {
     outline: 0,
     border: 0,
 
-    position: "relative"
+    position: "relative",
+
+    "&:not(:disabled):hover": {
+        color: "$gray100", 
+    },
+
+    "&:disabled":{
+        opacity:"0.5"
+    }
 })
 
 export const CycleInfoAmount = styled("div", {
