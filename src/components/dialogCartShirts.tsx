@@ -2,17 +2,33 @@ import { Shirt, ShoppingCartContext } from '@/context/shoppingCartContext';
 import { CloseButton, Overlay, Content, TitleCart, CardContainer, Card, ImageContainer, InfoProduct, InfoPriceContainer, BtnBuyProducts, Viewport, ScrollAreaRoot, Scrollbar, ScrollAreaThumb } from '@/styles/pages/dialogCartShirts';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'phosphor-react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Image from "next/image";
 
 export function DialogCartShirts () {
-    const { shirts, removeShirtToShoppingCart } = useContext(ShoppingCartContext)
+    const { shirts, removeShirtToShoppingCart, buyProductStripe } = useContext(ShoppingCartContext)
+
+    const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
 
     const totalPrice = shirts.reduce((acc: number, product: Shirt) => acc + (product.price * product.amount), 0)
     const formatPrice = new Intl.NumberFormat('pt-BR', {style: "currency", currency: "BRL"}).format(totalPrice)
 
     function handleRemoveShirtToShoppingCart (id:string) {
         removeShirtToShoppingCart(id)
+    }
+
+    async function handleBuyProductStripe() {
+        try{
+            setIsCreatingCheckoutSession(true)
+            const url = await buyProductStripe()
+
+            if (url) {
+                window.location.href = url
+            }
+        } catch (err){
+            setIsCreatingCheckoutSession(false)
+            console.log(err)
+        }
     }
     
     return (
@@ -62,7 +78,7 @@ export function DialogCartShirts () {
                         <span>{formatPrice}</span>
                     </InfoPriceContainer>
 
-                    <BtnBuyProducts>
+                    <BtnBuyProducts onClick={handleBuyProductStripe} disabled={isCreatingCheckoutSession}>
                         Finalizar Conta
                     </BtnBuyProducts>
                 </footer>

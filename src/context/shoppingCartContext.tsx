@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { ReactNode, createContext, useState } from 'react'
+import { toast } from "react-toastify";
 
 
 export interface Shirt {
@@ -16,6 +18,7 @@ interface shoppingCartContextType {
     shirts: Shirt[]
     addShirtToShoppingCart: (data: Shirt) => void;
     removeShirtToShoppingCart: (id: string) => void;
+    buyProductStripe: () => Promise<string>;
 }
 
 interface shirtContextProviderProps {
@@ -51,9 +54,34 @@ export function ShoppingCartContextProvider({children}: shirtContextProviderProp
         setShirts(copyShirts)
     }
 
+    async function buyProductStripe() {
+        try{
+            if (!shirts || shirts.length === 0) {
+                return
+            }
+
+            const items = shirts.map(item => {
+                return {
+                    price: item.defaultPriceId,
+                    quantity: item.amount,
+                }
+            })
+
+            const response = await axios.post('/api/checkout', {
+                arrayShirts: items
+            })
+
+            const { checkoutUrl } = response.data
+
+            return checkoutUrl
+        } catch (err) {
+            toast.error('Falha ao redirecionar o usuário para o checkout')
+        }
+    }
+
 
     return (
-    <ShoppingCartContext.Provider value={{ shirts, addShirtToShoppingCart, removeShirtToShoppingCart }}>
+    <ShoppingCartContext.Provider value={{ shirts, addShirtToShoppingCart, removeShirtToShoppingCart, buyProductStripe }}>
         {children}
     </ShoppingCartContext.Provider>
     )

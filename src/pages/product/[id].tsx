@@ -24,8 +24,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export default function Product ({product}:ProductProps) {
     const { addShirtToShoppingCart } = useContext(ShoppingCartContext)
 
-    const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
-
     const [amount, setAmount] = useState(1)
     
     function handleAddOrRemoveShirt (type: 'more' | 'less') {
@@ -68,25 +66,6 @@ export default function Product ({product}:ProductProps) {
         }
     }
 
-    
-    // async function handleBuyProduct() {
-    //     try{
-    //         setIsCreatingCheckoutSession(true)
-    //         const response = await axios.post('/api/checkout', {
-    //             priceId: product.defaultPriceId
-    //         })
-
-    //         const { checkoutUrl } = response.data
-
-    //         window.location.href = checkoutUrl
-
-    //     } catch (err) {
-    //         setIsCreatingCheckoutSession(false)
-    //         alert('Falha ao redirecionar o usuário para o checkout')
-    //     }
-    // }
-
-
     return (
         <>
             <Head>
@@ -113,7 +92,7 @@ export default function Product ({product}:ProductProps) {
                             <BtnAmount onClick={() => handleAddOrRemoveShirt('more')}>+</BtnAmount>
                         </BtnAmountContainer> 
                      
-                        <button onClick={handleAddShirtFromShoppingCart} disabled={isCreatingCheckoutSession}>
+                        <button onClick={handleAddShirtFromShoppingCart}>
                             Colocar na sacola
                         </button>
                     </footer>
