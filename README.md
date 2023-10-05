@@ -1,40 +1,70 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align='center'>
+  <img height='300px' alt='' title='Readme' src='./src/assets/ImgShow1.png'>
+  <img height='300px' alt='' title='Readme' src='./src/assets/ImgShow2.png'>
+  <img height='300px' alt='' title='Readme' src='./src/assets/ImgShow3.png'>
+  <img height='300px' alt='' title='Readme' src='./src/assets/ImgShow4.png'>
+</div>
 
-## Getting Started
+# Sobre o projeto 💬
 
-First, run the development server:
+O **Ignite_Shop** é uma aplicação web desenvolvida na Rocketseat, sobre uma loja online de venda de camisetas
+
+## Funcionalidades 🧠
+
+###  📕 A aplicação contém as seguintes funcionalidades:
+
+- [x] Visualizar todas as camisetas disponíveis
+- [x] Selecionar uma camiseta e a quantidade para efetuar a compra
+- [x] Visualizar suas compras 
+- [x] Finalizar a compra
+- [x] Efetuar o pagamento utilizando Stripe 
+
+## Pré-requisitos
+#### Antes de começar, é bom ter instalado em sua maquina as seguintes ferramentas:
+- [x] [GIT](https://git-scm.com/)
+- [x] [VSCode](https://code.visualstudio.com/)
+- [x] [NodeJs](https://nodejs.org/en/)
+
+### Rodando o Projeto 📖
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone para este repositório
+$ git clone https://github.com/Pedro-AugusCoelho/Ignite_Shop.git
+
+# Acesse a pasta do projeto no terminal/cmd
+$ cd Ignite_Shop
+
+# Instale as dependências
+$ npm install
+
+# Preencha o .env.local para aplicação rodar
+$ NEXT_URL= // URL DA APLICAÇÃO
+$ STRIPE_PUBLIC_KEY= // CHAVE PUBLICA DO STRIPE
+$ STRIPE_SECRET_KEY= // CHAVE PRIVADA DO STRIPE
+
+# Execute a aplicação em modo de desenvolvimento
+$ npm run dev
+
+# O projeto iniciará na porta:3000 - acesse <http://127.0.0.1:3000>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologias 🛠
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Desenvolvido utilizando as seguintes tecnologias:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- [REACT.JS](https://reactjs.org/)
+- [NEXT.JS](https://nextjs.org/)
+- [TYPESCRIPT](https://www.typescriptlang.org/)
+- [STITCHES](https://stitches.dev/)
+- [KEEN-SLIDER](https://keen-slider.io/)
+- [TOASTTIFY](https://fkhadra.github.io/react-toastify/introduction)
+- [STRIPE](https://stripe.com/br)
+- [PHOSPHOR-REACT](https://phosphoricons.com/)
+- [RADIX-UI](https://www.radix-ui.com/themes/docs/overview/getting-started)
+- [AXIOS](https://www.npmjs.com/package/axios)
+- [ESLINT](https://eslint.org/)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Desenvolvido ##
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- [Rocketseat](https://www.rocketseat.com.br/index)
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
