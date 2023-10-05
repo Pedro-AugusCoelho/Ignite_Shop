@@ -6,7 +6,7 @@ export const SuccessContainer = styled("main", {
     alignItems: "center",
     justifyContent: "center",
     margin: "0 auto",
-    width: 656,
+    width: 1200,
 
     h1: {
         fontSize: "$2xl",
@@ -36,20 +36,30 @@ export const SuccessContainer = styled("main", {
     }
 })
 
+export const ContainerArrayImage = styled('div', {
+    width: '100%',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+
+    marginTop: '4rem',
+})
+
 export const ImageContainer = styled('div', {
     width: "100%",
     maxWidth: 130,
-    height: 145,
+    height: 130,
     background: "linear-gradient(188deg, #1ea483 0%, #7465d4 100%)",
-    borderRadius: 8,
+    boxShadow: `-8px 5px 30px black`,
+    borderRadius: 65, 
     padding: '0.25rem',
 
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
 
-    marginTop: '4rem',
-
+    marginLeft: '-3rem',
+    
     img: {
         objectFit: "cover"
     }

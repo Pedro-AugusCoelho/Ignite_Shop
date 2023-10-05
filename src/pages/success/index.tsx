@@ -1,20 +1,39 @@
-import { ImageContainer, SuccessContainer } from "@/styles/pages/success";
+import { ContainerArrayImage, ImageContainer, SuccessContainer } from "@/styles/pages/success";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { stripe } from "@/lib/stripe";
-import Stripe from "stripe";
 import Image from "next/image";
 import Head from "next/head";
 
+
+interface product {
+    id: string;
+    quantity: number;
+    name: string;
+    image: string;
+}
 interface SuccessProps {
     customerName: string;
-    product: {
-        name: string;
-        image: string;
-    }
+    product: product[]
 }
 
 export default function Success({ customerName, product }: SuccessProps) {
+
+    function formatNamesWithQuantity(product: product[]) {
+        const formattedNames = product.map((item, index) => {
+            if (index === product.length - 1) {
+            return `e ${item.quantity} ${item.name}`;
+            } else if (index === product.length - 2) {
+                return `${item.quantity} ${item.name}`;
+            }
+            return `${item.quantity} ${item.name},`;
+            });
+        return formattedNames.join(' ');
+    }
+
+    const formattedNamesWithQuantity = formatNamesWithQuantity(product);
+
+
     return (
         <>
             <Head>
@@ -26,13 +45,24 @@ export default function Success({ customerName, product }: SuccessProps) {
             <SuccessContainer>
                 <h1>Compra efetuada!</h1>
                 
-                <ImageContainer>
-                        <Image src={product.image} alt="" width={120} height={110} />
-                </ImageContainer>
+            <ContainerArrayImage>
+                {product && product.map(item => {
+                    return (
+                        <ImageContainer key={item.id}>
+                            <Image src={item.image} alt="" width={130} height={130} />
+                        </ImageContainer>
+                    )
+                })
+                }
+            </ContainerArrayImage>
 
                 <p>
-                        Uhuul <strong>{customerName}</strong>, sua <strong>{product.name}</strong> já está a caminho da sua casa.
-                    </p>
+                    <>Uhuul <strong>{customerName}</strong>, sua compra de </>
+                    
+                    <>{formattedNamesWithQuantity}</>
+                    
+                    <> já está a caminho da sua casa.</>
+                </p>
 
                 <Link href="/">
                         Voltar ao catálogo
@@ -60,15 +90,22 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     })
 
     const customerName = session.customer_details!.name;
-    const product = session.line_items!.data[0].price.product as Stripe.Product;
+    
+    const products = session.line_items!.data.map((product) => {
+        const item: any = product
+        
+        return {
+            id: item.id,
+            quantity: item.quantity,
+            name: item.price!.product.name,
+            image: item.price!.product.images[0]
+        }
+    })
 
     return {
         props: {
             customerName,
-            product: {
-                name: product.name,
-                image: product.images[0]
-            }
+            product: products
         }
     }
 }

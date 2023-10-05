@@ -8,6 +8,7 @@ import Head from "next/head";
 import { Shirt, ShoppingCartContext } from "@/context/shoppingCartContext";
 import { Header } from "@/components/Header";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 export interface ProductProps {
     product: Shirt
 }
@@ -22,6 +23,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export default function Product ({product}:ProductProps) {
+    const route = useRouter()
+    
     const { addShirtToShoppingCart } = useContext(ShoppingCartContext)
 
     const [amount, setAmount] = useState(1)
@@ -54,7 +57,6 @@ export default function Product ({product}:ProductProps) {
     }
 
     function handleClearAmountAndInfoBuy () {
-        setAmount(1)
         if(amount === 1) {
             toast.success(`${amount} ${product.name} foi adicionada no carrinho!`, {
                 icon: true
@@ -64,12 +66,13 @@ export default function Product ({product}:ProductProps) {
                 icon: true
             })
         }
+        route.back()
     }
 
     return (
         <>
             <Head>
-                <title>{product.name} | Ignite Shop</title>
+                <title>{`${product.name} | Ignite Shop`}</title>
             </Head>
 
             <Header />
